@@ -233,6 +233,7 @@ main {
     margin: 5px 0;
 }
 
+
 .sold-number {
     font-size: 0.9em;
     color: #707070;
@@ -258,7 +259,7 @@ main {
     margin-bottom: 10px;
 }
 
-.buy-btn {
+.cart-btn {
     padding: 7px 15px;
     background-color: #26973f;
     color: white;
@@ -269,7 +270,7 @@ main {
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.buy-btn:hover {
+.cart-btn:hover {
     background-color: #15e49f;
     transform: scale(1.05);
 }

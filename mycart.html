@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Decor Hub</title>
+    <link rel="shortcut icon" href="gallery/home.logo.webp" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <h3>Home Decor Hub</h3>
+            <h4>Style Your Space, Love Your Home.</h4>
+        </div>
+        <button class="toggle-btn" id="toggle-btn">&#9776;</button>
+    </header>
+
+    <!-- Right Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <button onclick="logout" id="logoutBtn">Log Out</button>
+        <p style="color: bisque; text-align: center;">Welcome</p>
+        <h4 id="userName">Md. Rahamatullah</h4>
+        <ul>
+            <li><img src="gallery/home.png" alt="Home Icon"><a href="Index.html">Home</a></li>
+            <li><img src="gallery/product.png" alt="Product Icon"><a href="product.html">Product</a></li>
+            <li><img src="gallery/cart.png" alt="Cart Icon"><a href="mycart.html">My Cart</a></li>
+            <li><img src="gallery/order.png" alt="Order Icon"><a href="#">My Order</a></li>
+            <li><img src="gallery/contact.png" alt="Contact Icon"><a href="#">Contact Us</a></li>
+            <li><img src="gallery/login.png" alt="Login Icon"><a href="#">Login</a></li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+   <h2>My Cart</h2>
+<div id="cart-items"></div>
+
+<h3>Checkout Info</h3>
+<form id="checkoutForm">
+  <input type="text" id="name" placeholder="Your Name" required><br><br>
+  <input type="text" id="phone" placeholder="Phone Number" required><br><br>
+  <textarea id="address" placeholder="Address" required></textarea><br><br>
+  <input type="number" id="quantity" placeholder="Quantity" value="1" min="1" required><br><br>
+
+  <label>Delivery:</label>
+  <select id="delivery">
+    <option value="60">Inside Dhaka (+60)</option>
+    <option value="120">Outside Dhaka (+120)</option>
+  </select><br><br>
+
+  <label>Payment Method:</label>
+  <select id="payment">
+    <option value="Bkash">Bkash</option>
+    <option value="Nagad">Nagad</option>
+    <option value="Rocket">Rocket</option>
+    <option value="COD">Cash on Delivery</option>
+  </select><br><br>
+
+  <button type="submit">Order Now</button>
+</form>
+
+<div id="order-summary"></div>
+
+<script>
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let cartItemsDiv = document.getElementById("cart-items");
+
+if(cart.length === 0) {
+  cartItemsDiv.innerHTML = "<p>No items in cart.</p>";
+} else {
+  cart.forEach(item => {
+    cartItemsDiv.innerHTML += `
+      <div style="border:1px solid #ddd; padding:10px; margin:10px;">
+        <img src="${item.img}" width="80"><br>
+        <strong>${item.name}</strong><br>
+        Price: ৳${item.price}
+      </div>
+    `;
+  });
+}
+
+document.getElementById("checkoutForm").addEventListener("submit", function(e){
+  e.preventDefault();
+  
+  let name = document.getElementById("name").value;
+  let phone = document.getElementById("phone").value;
+  let address = document.getElementById("address").value;
+  let quantity = parseInt(document.getElementById("quantity").value);
+  let delivery = parseInt(document.getElementById("delivery").value);
+  let payment = document.getElementById("payment").value;
+  
+  let totalPrice = cart.reduce((sum, item) => sum + item.price * quantity, 0) + delivery;
+
+  document.getElementById("order-summary").innerHTML = `
+    <h3>Order Summary</h3>
+    <p>Customer: ${name}</p>
+    <p>Phone: ${phone}</p>
+    <p>Address: ${address}</p>
+    <p>Products: ${cart.map(i=>i.name).join(", ")}</p>
+    <p>Quantity: ${quantity}</p>
+    <p>Delivery: ৳${delivery}</p>
+    <p>Payment: ${payment}</p>
+    <p><strong>Total: ৳${totalPrice}</strong></p>
+    <h2>✅ Welcome ${name}, your order has been placed successfully!</h2>
+  `;
+  
+  // update sold count (demo only)
+  localStorage.removeItem("cart"); 
+});
+</script>
+
+
+
+    
+
+
+    <footer>
+        <p>&copy; 2025 Home Decor Hub. All rights reserved.</p>
+    </footer>
+  
+
+    <script src="script.js"></script>
+</body>
+</html>

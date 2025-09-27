@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Decor Hub</title>
+    <link rel="shortcut icon" href="gallery/home.logo.webp" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <h3>Home Decor Hub</h3>
+            <h4>Style Your Space, Love Your Home.</h4>
+        </div>
+        <button class="toggle-btn" id="toggle-btn">&#9776;</button>
+    </header>
+
+    <!-- Right Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <button onclick="logout" id="logoutBtn">Log Out</button>
+        <p style="color: bisque; text-align: center;">Welcome</p>
+        <h4 id="userName">Md. Rahamatullah</h4>
+        <ul>
+            <li><img src="gallery/home.png" alt="Home Icon"><a href="#">Home</a></li>
+            <li><img src="gallery/product.png" alt="Product Icon"><a href="product.html">Product</a></li>
+            <li><img src="gallery/cart.png" alt="Cart Icon"><a href="#">My Cart</a></li>
+            <li><img src="gallery/order.png" alt="Order Icon"><a href="#">My Order</a></li>
+            <li><img src="gallery/contact.png" alt="Contact Icon"><a href="#">Contact Us</a></li>
+            <li><img src="gallery/login.png" alt="Login Icon"><a href="#">Login</a></li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main>
+        <section class="hero">
+            <h1>Welcome to Home Decor Hub</h1>
+            <p>Discover beautiful items to decorate your home.</p>
+            <a href="Products.html" class="btn">Shop Now</a>
+        </section>
+    </main>
+    <div class="product-grid">
+    <div class="product-card">
+        <img src="gallery/self.jpeg" alt="Wall Shelf" class="product-image">
+        <h3 class="product-name">Wall Shelf</h3>
+        <p class="sold-number">Sold: 127</p>
+        <div class="ratings">
+            <span>⭐</span><span>⭐</span><span>⭐</span><span>☆</span>
+            <span class="rating-number">(4.0)</span>
+        </div>
+        <p class="product-price">৳ 265.00</p>
+        <button class="buy-btn">Buy Now</button>
+    </div>
+
+    <div class="product-card">
+        <img src="gallery/storage.jpeg" alt="Storage Shelf" class="product-image">
+        <h3 class="product-name">Storage Shelf</h3>
+        <p class="sold-number">Sold: 102</p>
+        <div class="ratings">
+            <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>☆</span>
+            <span class="rating-number">(4.2)</span>
+        </div>
+        <p class="product-price">৳ 325.00</p>
+        <button class="buy-btn">Buy Now</button>
+    </div>
+
+    <div class="product-card">
+        <img src="gallery/heriken.jpg" alt="Hariken" class="product-image">
+        <h3 class="product-name">Hariken</h3>
+        <p class="sold-number">Sold: 201</p>
+        <div class="ratings">
+            <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>☆</span>
+            <span class="rating-number">(4.3)</span>
+        </div>
+        <p class="product-price">৳ 410.00</p>
+        <button class="buy-btn">Buy Now</button>
+    </div>
+    </div>
+
+
+    
+
+
+    <footer>
+        <p>&copy; 2024 Home Decor Hub. All rights reserved.</p>
+    </footer>
+  
+
+    <script src="script.js"></script>
+</body>
+</html>

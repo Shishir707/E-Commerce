@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Decor Hub</title>
+    <title>My Cart - Home Decor Hub</title>
     <link rel="shortcut icon" href="gallery/home.logo.webp" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -14,112 +14,188 @@
             <h3>Home Decor Hub</h3>
             <h4>Style Your Space, Love Your Home.</h4>
         </div>
-        <button class="toggle-btn" id="toggle-btn">&#9776;</button>
     </header>
 
-    <!-- Right Sidebar -->
-    <aside class="sidebar" id="sidebar">
-        <button onclick="logout" id="logoutBtn">Log Out</button>
-        <p style="color: bisque; text-align: center;">Welcome</p>
-        <h4 id="userName">Md. Rahamatullah</h4>
-        <ul>
-            <li><img src="gallery/home.png" alt="Home Icon"><a href="Index.html">Home</a></li>
-            <li><img src="gallery/product.png" alt="Product Icon"><a href="product.html">Product</a></li>
-            <li><img src="gallery/cart.png" alt="Cart Icon"><a href="mycart.html">My Cart</a></li>
-            <li><img src="gallery/order.png" alt="Order Icon"><a href="#">My Order</a></li>
-            <li><img src="gallery/contact.png" alt="Contact Icon"><a href="#">Contact Us</a></li>
-            <li><img src="gallery/login.png" alt="Login Icon"><a href="#">Login</a></li>
-        </ul>
-    </aside>
+    <!-- Cart Items -->
+    <h2 style="padding:20px;">My Cart</h2>
+    <p>You Have to Pay ৳ <span id="totalPrice">0</span></p>
+    <div id="cart-items"></div>
+    
+    <!-- Checkout Form -->
+    <h3 style="padding:20px 20px 0 20px;">Checkout Info</h3>
+    <form id="checkoutForm">
+        <input type="text" id="name" placeholder="Enter Your Name">
+        <input type="text" id="phone" placeholder="Enter Phone Number" >
+        <textarea id="address" placeholder="Enter Receving Address"></textarea>
+        <label>Delivery:</label>
+        <select id="delivery">
+            <option value="Select Delivery Area" disabled selected>Select Delivery Area</option>
+            <option value="60">Inside Dhaka (+৳60)</option>
+            <option value="120">Outside Dhaka (+৳120)</option>
+        </select>
+        <label>Payment Method:</label>
+        <select id="payment">
+            <option value="Bkash">Bkash</option>
+            <option value="Nagad">Nagad</option>
+            <option value="Rocket">Rocket</option>
+            <option value="COD">Cash on Delivery</option>
+        </select>
+        <button type="submit">Order Now</button>
+    </form>
 
-    <!-- Main Content -->
-   <h2>My Cart</h2>
-<div id="cart-items"></div>
+    <!-- Order Summary -->
+    <div id="order-summary"></div>
 
-<h3>Checkout Info</h3>
-<form id="checkoutForm">
-  <input type="text" id="name" placeholder="Your Name" required><br><br>
-  <input type="text" id="phone" placeholder="Phone Number" required><br><br>
-  <textarea id="address" placeholder="Address" required></textarea><br><br>
-  <input type="number" id="quantity" placeholder="Quantity" value="1" min="1" required><br><br>
+    <footer>
+        <p>&copy; 2025 Home Decor Hub. All rights reserved.</p>
+    </footer>
 
-  <label>Delivery:</label>
-  <select id="delivery">
-    <option value="60">Inside Dhaka (+60)</option>
-    <option value="120">Outside Dhaka (+120)</option>
-  </select><br><br>
-
-  <label>Payment Method:</label>
-  <select id="payment">
-    <option value="Bkash">Bkash</option>
-    <option value="Nagad">Nagad</option>
-    <option value="Rocket">Rocket</option>
-    <option value="COD">Cash on Delivery</option>
-  </select><br><br>
-
-  <button type="submit">Order Now</button>
-</form>
-
-<div id="order-summary"></div>
-
-<script>
+  <script>
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
-let cartItemsDiv = document.getElementById("cart-items");
+const cartItemsDiv = document.getElementById("cart-items");
+const totalPriceEl = document.getElementById("totalPrice"); // span for total price
 
-if(cart.length === 0) {
-  cartItemsDiv.innerHTML = "<p>No items in cart.</p>";
-} else {
-  cart.forEach(item => {
-    cartItemsDiv.innerHTML += `
-      <div style="border:1px solid #ddd; padding:10px; margin:10px;">
-        <img src="${item.img}" width="80"><br>
-        <strong>${item.name}</strong><br>
-        Price: ৳${item.price}
-      </div>
-    `;
-  });
+// Render cart items
+function renderCart() {
+    if(cart.length === 0){
+        cartItemsDiv.innerHTML = "<p style='padding:20px; text-align:center;'>No items in cart.</p>";
+        totalPriceEl.textContent = 0; // reset total
+        return;
+    }
+
+    cartItemsDiv.innerHTML = '';
+    let total = 0; // calculate total for all items
+
+    cart.forEach((item, index) => {
+        const itemDiv = document.createElement('div');
+        itemDiv.classList.add('cart-item');
+        itemDiv.innerHTML = `
+            <input type="checkbox" class="select-item" data-index="${index}">
+            <img src="${item.img}" alt="${item.name}">
+            <div style="flex:1;">
+                <strong>${item.name}</strong><br>
+                Price: ৳${item.price}<br>
+                Sold Out: ${item.soldout}<br>
+                Quantity: 
+                <button onclick="changeQuantity(${index}, -1)">-</button>
+                <span id="qty-${index}">${item.quantity}</span>
+                <button onclick="changeQuantity(${index}, 1)">+</button>
+            </div>
+            <button onclick="deleteItem(${index})" style="background:#e53935;color:#fff;border:none;padding:5px 10px;border-radius:3px;cursor:pointer;">
+                Delete
+            </button>
+        `;
+        cartItemsDiv.appendChild(itemDiv);
+
+        total += item.price * item.quantity; // sum up total
+    });
+
+    totalPriceEl.textContent = total; // display total
 }
 
-document.getElementById("checkoutForm").addEventListener("submit", function(e){
-  e.preventDefault();
-  
-  let name = document.getElementById("name").value;
-  let phone = document.getElementById("phone").value;
-  let address = document.getElementById("address").value;
-  let quantity = parseInt(document.getElementById("quantity").value);
-  let delivery = parseInt(document.getElementById("delivery").value);
-  let payment = document.getElementById("payment").value;
-  
-  let totalPrice = cart.reduce((sum, item) => sum + item.price * quantity, 0) + delivery;
+// Change quantity
+function changeQuantity(index, delta) {
+    cart[index].quantity += delta;
+    if(cart[index].quantity < 1) cart[index].quantity = 1;
+    localStorage.setItem('cart', JSON.stringify(cart));
+    renderCart(); // re-render to update total price
+}
 
-  document.getElementById("order-summary").innerHTML = `
-    <h3>Order Summary</h3>
-    <p>Customer: ${name}</p>
-    <p>Phone: ${phone}</p>
-    <p>Address: ${address}</p>
-    <p>Products: ${cart.map(i=>i.name).join(", ")}</p>
-    <p>Quantity: ${quantity}</p>
-    <p>Delivery: ৳${delivery}</p>
-    <p>Payment: ${payment}</p>
-    <p><strong>Total: ৳${totalPrice}</strong></p>
-    <h2>✅ Welcome ${name}, your order has been placed successfully!</h2>
-  `;
-  
-  // update sold count (demo only)
-  localStorage.removeItem("cart"); 
+// Delete item
+function deleteItem(index) {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "This item will be removed from your cart.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            cart.splice(index, 1);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            renderCart();
+            Swal.fire("Deleted!", "The item has been removed.", "success");
+        }
+    });
+}
+
+renderCart();
+
+// Checkout form submission
+document.getElementById("checkoutForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    if(cart.length === 0){
+        Swal.fire({
+            icon:'info',
+            title:'Cart is empty!',
+            text:'Add products to your cart before checkout.'
+        });
+        return;
+    }
+
+    const selectedItems = [];
+    document.querySelectorAll('.select-item').forEach(chk => {
+        if(chk.checked){
+            selectedItems.push(cart[chk.dataset.index]);
+        }
+    });
+
+    if(selectedItems.length === 0){
+        Swal.fire({
+            icon:'warning',
+            title:'No items selected!',
+            text:'Please select at least one item to proceed.'
+        });
+        return;
+    }
+
+    const name = document.getElementById("name").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const address = document.getElementById("address").value.trim();
+    const delivery = parseInt(document.getElementById("delivery").value);
+    const payment = document.getElementById("payment").value.trim();
+
+    if (!name || !phone || !address || !delivery || !payment) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Incomplete Form!',
+            text: 'Please fill all the required fields before placing the order.'
+        });
+        return;
+    }
+
+    const totalPrice = selectedItems.reduce((sum,item)=> sum + item.price*item.quantity,0) + delivery;
+    totalPriceEl.textContent = totalPrice; // display total price before checkout
+
+    // Show order summary in Swal
+    Swal.fire({
+        icon: 'success',
+        title: 'Order Placed!',
+        html: `
+            <p><strong>Customer:</strong> ${name}</p>
+            <p><strong>Phone:</strong> ${phone}</p>
+            <p><strong>Address:</strong> ${address}</p>
+            <p><strong>Products:</strong> ${selectedItems.map(i=>i.name).join(", ")}</p>
+            <p><strong>Quantities:</strong> ${selectedItems.map(i=>i.quantity).join(", ")}</p>
+            <p><strong>Delivery:</strong> ৳${delivery}</p>
+            <p><strong>Payment:</strong> ${payment}</p>
+            <p><strong>Total:</strong> ৳${totalPrice}</p>
+        `
+    });
+
+    // Remove selected items from cart
+    cart = cart.filter(item => !selectedItems.includes(item));
+    localStorage.setItem('cart', JSON.stringify(cart));
+    renderCart();
 });
 </script>
 
 
 
-    
-
-
-    <footer>
-        <p>&copy; 2025 Home Decor Hub. All rights reserved.</p>
-    </footer>
-  
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="script.js"></script>
 </body>
 </html>

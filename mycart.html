@@ -33,14 +33,20 @@
     </aside>
 
     <!-- Cart Items -->
-    <h2 style="padding:20px;">My Cart</h2>
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 20px 0;">
+        <img src="gallery/cart.png" alt="My Cart" style="width:80px; height:auto; margin-bottom:10px;">
+        <h2 style="margin:0;">My Cart</h2>
+    </div>
     <p style="font-family: Arial, sans-serif; font-size: 18px; text-align: center; font-weight: 600; color: #333; background: #f7f7f7; padding: 12px 20px; border-radius: 6px; display: inline-block; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
     You Have to Pay ৳ <span id="totalPrice" style="color: #e53935;">0</span>
     </p>
     <div id="cart-items"></div>
     
     <!-- Checkout Form -->
-    <h3 style="padding:20px 20px 0 20px;">Checkout Info</h3>
+     <div style="padding:1px 1px 1px 1px; text-align:center; background-color: rgb(249, 232, 211);">
+        <h3 style="background-color: rgb(97, 80, 80); color: white;">Checkout Info</h3>
+        <p>Please fill out to confirm your order</p>
+     </div>
     <form id="checkoutForm">
         <input type="text" id="name" placeholder="Enter Your Name">
         <input type="text" id="phone" placeholder="Enter Phone Number" >

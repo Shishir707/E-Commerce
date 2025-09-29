@@ -327,7 +327,7 @@ footer p {
     background: #ffffff;
     padding: 15px;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
     transition: transform 0.2s, box-shadow 0.2s;
 }
 
@@ -405,7 +405,7 @@ footer p {
 #checkoutForm input:focus,
 #checkoutForm textarea:focus,
 #checkoutForm select:focus {
-    border: 2px solid #007bff;
+    border: 2px solid #ff0000;
     font-size: 20px;
 }
 

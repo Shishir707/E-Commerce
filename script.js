@@ -5,6 +5,19 @@ toggleBtn.addEventListener('click', () => {
     sidebar.classList.toggle('active');
 });
 
+function getOffer() {
+    Swal.fire({
+        title: 'Sorry!',
+        text: 'No offer today. Check back tomorrow.',
+        imageUrl: 'gallery/offer.jpg',
+        imageWidth: 400,   // adjust width as needed
+        imageHeight: 200,  // adjust height as needed
+        imageAlt: 'Offer Image',
+        icon: 'info',
+        confirmButtonText: 'OK'
+    });
+}
+
 
   const stockEl = document.getElementById("divcolor");
   const cartBtn = document.getElementById("cartBtn");

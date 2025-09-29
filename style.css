@@ -286,16 +286,21 @@ main {
     }
 }
 
+/* Footer */
 footer {
   background: #2c3e50; /* deep slate color */
   color: #ecf0f1;
-  padding: 20px 20px;
+  padding: 20px;
   text-align: center;
+  font-family: "Segoe UI", Arial, sans-serif;
+  width: 100%;               /* full width */
+  position: fixed;            /* stick to bottom */
+  bottom: 0;                  /* at bottom of viewport */
+  left: 0;                    /* start from left */
+  box-shadow: 0 -4px 12px rgba(226, 62, 62, 0.15);
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
-  box-shadow: 0 -4px 12px rgba(226, 62, 62, 0.15);
-  font-family: "Segoe UI", Arial, sans-serif;
-  margin-top: auto;
+  z-index: 1000;              /* on top of other elements */
 }
 
 /* Footer Text */
@@ -304,6 +309,7 @@ footer p {
   font-size: 14px;
   color: #bdc3c7;
 }
+
 
 /* Cart Items */
 #cart-items {
